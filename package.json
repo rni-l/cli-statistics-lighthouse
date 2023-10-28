@@ -1,0 +1,23 @@
+{
+  "name": "cli-statistics-lighthouss",
+  "version": "1.0.0",
+  "description": "Use lighthouse to analyze a website multiple times, collect the reports and statistics.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rni-l/cli-statistics-lighthouss.git"
+  },
+  "author": "Yun",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rni-l/cli-statistics-lighthouss/issues"
+  },
+  "homepage": "https://github.com/rni-l/cli-statistics-lighthouss#readme",
+  "dependencies": {
+    "commander": "^11.1.0",
+    "dayjs": "^1.11.10"
+  }
+}
