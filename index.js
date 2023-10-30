@@ -8,11 +8,11 @@ const KEY = Date.now()
 let maxNumber = DEFAULT_NUMBER
 
 // 递归执行命令列表
-async function executeCommand(url, index) {
+async function executeCommand(url, index, options) {
   if (index < maxNumber) {
     console.log(`Executing command ${index + 1}:`);
-    await executeLighthouse(url, `${reportDirPath}/report-${KEY}-${index}.json`)
-    await executeCommand(url, index + 1);
+    await executeLighthouse(url, `${reportDirPath}/report-${KEY}-${index}.json`, options)
+    await executeCommand(url, index + 1, options);
   } else {
     console.log('last');
     getReport()
@@ -29,12 +29,13 @@ program
   .version(pkg.version);
 
 program.command('lighthouse')
-  .description('Execute lighthouse')
+  .description('Execute lighthouse and you can use other lighthouse params, such as --hostname 0.0.0.0')
   .argument('<url>', 'analyze url')
   .option('-n, --number <number>', 'execute number, 1/10/100 or more, default 10')
+  .option('--preset <string>', 'desktop/mobile')
   .action((str, options) => {
     maxNumber = options.number || DEFAULT_NUMBER
-    executeCommand(str, 0)
+    executeCommand(str, 0, options)
   });
 
 program.command('analyze')
