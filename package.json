@@ -1,6 +1,6 @@
 {
   "name": "cli-statistics-lighthouse",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Use lighthouse to analyze a website multiple times, collect the reports and statistics.",
   "main": "index.js",
   "bin": {

@@ -1,7 +1,7 @@
 /*
  * @Author: Lu
  * @Date: 2023-10-28 16:49:01
- * @LastEditTime: 2023-10-30 10:59:47
+ * @LastEditTime: 2023-10-30 15:20:31
  * @LastEditors: Lu
  * @Description: 
  */
@@ -9,8 +9,13 @@ import fs from 'fs'
 import path from 'path'
 import os from 'os'
 import dayjs from 'dayjs'
+import { fileURLToPath } from 'url';
 
-const pkg = JSON.parse(fs.readFileSync('./package.json', { encoding: 'utf-8' }))
+const __filename = fileURLToPath(import.meta.url);
+
+const __dirname = path.dirname(__filename);
+
+const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, './package.json'), { encoding: 'utf-8' }))
 
 const name = `npm-${pkg.name}`
 const tmpDir = path.join(os.tmpdir(), name)
