@@ -1,29 +1,18 @@
-const { exec } = require('child_process');
-const { getReport, getReportResult, getAllReportList } = require('./statistics')
-const { reportDirPath } = require('./config')
-const { Command } = require('commander');
-const pkg = require('./package.json')
+import { getReport, getReportResult, getAllReportList, clearAllReportList } from './statistics.js'
+import { reportDirPath, pkg } from './config.js'
+import { Command } from 'commander'
+import { executeLighthouse } from './lighthouse.js'
+
 const DEFAULT_NUMBER = 10
-const key = Date.now()
+const KEY = Date.now()
 let maxNumber = DEFAULT_NUMBER
-// 定义要执行的命令列表
-const getCommand = (url, version) => `lighthouse ${url}  --output=json --output-path=${reportDirPath}/report-${key}-${version}.json --save-assets   --preset=desktop --screenEmulation.width=1000 --only-categories=performance`
 
 // 递归执行命令列表
-function executeCommand(url, index) {
+async function executeCommand(url, index) {
   if (index < maxNumber) {
-    const command = getCommand(url, index);
-    console.log(`Executing command ${index + 1}: ${command}`);
-
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        console.error(`Error executing command ${index + 1}: ${error.message}`);
-        return;
-      }
-
-      console.log(`Command ${index + 1} executed successfully.`);
-      executeCommand(url, index + 1);
-    });
+    console.log(`Executing command ${index + 1}:`);
+    await executeLighthouse(url, `${reportDirPath}/report-${KEY}-${index}.json`)
+    await executeCommand(url, index + 1);
   } else {
     console.log('last');
     getReport()
@@ -44,8 +33,8 @@ program.command('lighthouse')
   .argument('<url>', 'analyze url')
   .option('-n, --number <number>', 'execute number, 1/10/100 or more, default 10')
   .action((str, options) => {
-    const number = options.number || DEFAULT_NUMBER
-    executeCommand(str, number)
+    maxNumber = options.number || DEFAULT_NUMBER
+    executeCommand(str, 0)
   });
 
 program.command('analyze')
@@ -62,6 +51,13 @@ program.command('history')
   .description('Get history')
   .action((str, options) => {
     getAllReportList()
+  });
+
+
+program.command('clear')
+  .description('Clear all local history')
+  .action((str, options) => {
+    clearAllReportList()
   });
 
 program.parse();

@@ -1,15 +1,16 @@
 /*
  * @Author: Lu
  * @Date: 2023-10-28 16:49:01
- * @LastEditTime: 2023-10-28 17:22:59
+ * @LastEditTime: 2023-10-30 10:59:47
  * @LastEditors: Lu
  * @Description: 
  */
-const fs = require('fs')
-const path = require('path')
-const os = require('os');
-const dayjs = require('dayjs')
-const pkg = require('./package.json')
+import fs from 'fs'
+import path from 'path'
+import os from 'os'
+import dayjs from 'dayjs'
+
+const pkg = JSON.parse(fs.readFileSync('./package.json', { encoding: 'utf-8' }))
 
 const name = `npm-${pkg.name}`
 const tmpDir = path.join(os.tmpdir(), name)
@@ -30,8 +31,9 @@ const checkDir = (checkPath) => {
 checkDir(tmpDir)
 checkDir(reportDirPath)
 checkDir(resultDirPath)
-module.exports = {
+export {
   reportDirPath,
   resultDirPath,
   logFilePath,
+  pkg
 }

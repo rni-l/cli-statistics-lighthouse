@@ -1,23 +1,29 @@
 {
-  "name": "cli-statistics-lighthouss",
-  "version": "1.0.0",
+  "name": "cli-statistics-lighthouse",
+  "version": "1.0.2",
   "description": "Use lighthouse to analyze a website multiple times, collect the reports and statistics.",
   "main": "index.js",
+  "bin": {
+    "cli-statistics-lighthouse": "./bin.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rni-l/cli-statistics-lighthouss.git"
+    "url": "git+https://github.com/rni-l/cli-statistics-lighthouse.git"
   },
   "author": "Yun",
   "license": "MIT",
+  "type": "module",
   "bugs": {
-    "url": "https://github.com/rni-l/cli-statistics-lighthouss/issues"
+    "url": "https://github.com/rni-l/cli-statistics-lighthouse/issues"
   },
-  "homepage": "https://github.com/rni-l/cli-statistics-lighthouss#readme",
+  "homepage": "https://github.com/rni-l/cli-statistics-lighthouse#readme",
   "dependencies": {
+    "chrome-launcher": "^1.1.0",
     "commander": "^11.1.0",
-    "dayjs": "^1.11.10"
+    "dayjs": "^1.11.10",
+    "lighthouse": "^11.2.0"
   }
 }

@@ -1,20 +1,20 @@
-const fs = require('fs')
-const path = require('path')
-const dayjs = require('dayjs')
-const {
+import fs from 'fs'
+import path from 'path'
+import dayjs from 'dayjs'
+import {
   reportDirPath,
   resultDirPath,
   logFilePath
-} = require('./config')
+} from './config.js'
 
 
 const keyMapName = {
   firstContentfulPaint: 'FCP(首次内容绘制) ',
   largestContentfulPaint: 'LCP(最大内容绘制)',
-  interactive: 'TTI (可交互时间)',
-  speedIndex: '速度指数',
+  interactive: 'TTI(可交互时间)',
+  speedIndex: 'Speed Index(速度指数)',
   totalBlockingTime: 'TBT(总阻塞时间)',
-  maxPotentialFID: '最大可能的首次输入延迟',
+  maxPotentialFID: 'maxPotentialFID(最大可能的首次输入延迟)',
   cumulativeLayoutShift: 'CLS(累积布局变动)',
   timeToFirstByte: 'TTFB(首字节到达时间)',
 }
@@ -33,9 +33,9 @@ const scoreList = {
 const getMetricsScore = (key, val) => {
   const scores = scoreList[key]
   const findIndex = scores.findIndex((v) => val >= v[0] && val < v[1])
-  if (findIndex === 0) return 'fast(快速)'
-  if (findIndex === 1) return 'moderate(普通)'
-  return 'slow(慢)'
+  if (findIndex === 0) return 'fast'
+  if (findIndex === 1) return 'moderate'
+  return 'slow'
 }
 
 const logLargeData = (data) => {
@@ -114,12 +114,12 @@ const logMetrics = (result) => {
   }, [[], []])
   const successLen = successList.length
   logLine()
-  log('成功次数：', successLen)
-  log('失败次数：', failList.length)
+  log('success: ', successLen)
+  log('fail:', failList.length)
   logLine()
-  logAvgMetrics(successList, `在${successLen}次有效测试中，网页性能的各项指标平均数：`)
+  logAvgMetrics(successList, `Average web performance metrics in ${successLen} active tests:`)
   logLine()
-  log('错误信息：')
+  log('error msg:')
   failList.forEach(v2 => {
     log(v2.failMsg)
   })
@@ -201,9 +201,20 @@ const getAllReportList = () => {
   files.forEach(v => {
     log(v)
   })
+  if (!files.length) {
+    log('Empty')
+  }
+}
+
+const clearAllReportList = () => {
+  const files = fs.readdirSync(resultDirPath)
+  files.forEach(v => {
+    log(`${v}, successfully deleted`)
+    fs.rmSync(path.join(resultDirPath, v))
+  })
 }
 
 
-module.exports = {
-  getReport, getReportResult, getAllReportList
+export {
+  getReport, getReportResult, getAllReportList, clearAllReportList
 }
